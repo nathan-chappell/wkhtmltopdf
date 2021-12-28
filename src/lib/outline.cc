@@ -113,7 +113,7 @@ void OutlinePrivate::fillChildAnchors(OutlineItem * item, QHash<QString, QWebEle
 void OutlinePrivate::outlineChildren(OutlineItem * item, QPrinter * printer, int level) {
 	if (level + 1 > settings.outlineDepth) return;
 	foreach (OutlineItem * i, item->children) {
-		printer->beginSectionOutline(i->value, i->anchor);
+		printer->beginSectionOutline(i->value, i->anchor, i->bold, i->red);
 		outlineChildren(i, printer, level+1);
 		printer->endSectionOutline();
 	}
@@ -221,6 +221,10 @@ bool Outline::replaceWebPage(int document,
 		item->element = element;
 		item->forwardLinks = ps.toc.forwardLinks;
 		item->backLinks = ps.toc.backLinks;
+		// EDIT
+		item->bold = element.hasClass("outline-bold");
+		item->red = element.hasClass("outline-red");
+		//
 
 		while (levelStack.back() >= level) {
 			old = old->parent;

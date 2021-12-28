@@ -44,6 +44,10 @@ public:
 					 QVector<QPair<QWebElement, QString> > & local,
 					 QHash<QString, QWebElement> & anchors);
 	bool differentFrom(const OutlineItem * other) const;
+	// EDIT
+	bool bold;
+	bool red;
+	//
 	OutlineItem();
 	~OutlineItem();
 };
