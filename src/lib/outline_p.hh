@@ -46,7 +46,10 @@ public:
 	bool differentFrom(const OutlineItem * other) const;
 	// EDIT
 	bool bold;
-	bool red;
+	bool italic;
+	double r;
+	double g;
+	double b;
 	//
 	OutlineItem();
 	~OutlineItem();

@@ -113,7 +113,7 @@ void OutlinePrivate::fillChildAnchors(OutlineItem * item, QHash<QString, QWebEle
 void OutlinePrivate::outlineChildren(OutlineItem * item, QPrinter * printer, int level) {
 	if (level + 1 > settings.outlineDepth) return;
 	foreach (OutlineItem * i, item->children) {
-		printer->beginSectionOutline(i->value, i->anchor, i->bold, i->red);
+		printer->beginSectionOutline(i->value, i->anchor, i->bold, i->italic, i->r, i->g, i->b);
 		outlineChildren(i, printer, level+1);
 		printer->endSectionOutline();
 	}
@@ -223,7 +223,37 @@ bool Outline::replaceWebPage(int document,
 		item->backLinks = ps.toc.backLinks;
 		// EDIT
 		item->bold = element.hasClass("outline-bold");
-		item->red = element.hasClass("outline-red");
+		item->italic = element.hasClass("outline-italic");
+		item->r = element.attribute("outline-red", "0").toInt() / 255.0;
+		item->g = element.attribute("outline-green", "0").toInt() / 255.0;
+		item->b = element.attribute("outline-blue", "0").toInt() / 255.0;
+		cerr << "[OUTLINE ITEM PARSE]: r=" << item->r << ", g=" << item->g << ", b=" << item->b << endl;
+
+		/*
+		item->r = element.hasClass("outline-red") ? 1.0 : 0.0;
+		item->r = element.hasClass("outline-red-1") ? 1.0/6.0 : item->r;
+		item->r = element.hasClass("outline-red-2") ? 2.0/6.0 : item->r;
+		item->r = element.hasClass("outline-red-3") ? 3.0/6.0 : item->r;
+		item->r = element.hasClass("outline-red-4") ? 4.0/6.0 : item->r;
+		item->r = element.hasClass("outline-red-5") ? 5.0/6.0 : item->r;
+		item->r = element.hasClass("outline-red-6") ? 6.0/6.0 : item->r;
+
+		item->g = element.hasClass("outline-green") ? 1.0 : 0.0;
+		item->g = element.hasClass("outline-green-1") ? 1.0/6.0 : item->g;
+		item->g = element.hasClass("outline-green-2") ? 2.0/6.0 : item->g;
+		item->g = element.hasClass("outline-green-3") ? 3.0/6.0 : item->g;
+		item->g = element.hasClass("outline-green-4") ? 4.0/6.0 : item->g;
+		item->g = element.hasClass("outline-green-5") ? 5.0/6.0 : item->g;
+		item->g = element.hasClass("outline-green-6") ? 6.0/6.0 : item->g;
+
+		item->b = element.hasClass("outline-blue") ? 1.0 : 0.0;
+		item->b = element.hasClass("outline-blue-1") ? 1.0/6.0 : item->b;
+		item->b = element.hasClass("outline-blue-2") ? 2.0/6.0 : item->b;
+		item->b = element.hasClass("outline-blue-3") ? 3.0/6.0 : item->b;
+		item->b = element.hasClass("outline-blue-4") ? 4.0/6.0 : item->b;
+		item->b = element.hasClass("outline-blue-5") ? 5.0/6.0 : item->b;
+		item->b = element.hasClass("outline-blue-6") ? 6.0/6.0 : item->b;
+		*/
 		//
 
 		while (levelStack.back() >= level) {
